@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pokemon_riverpod/features/presentation/pages/pokemon_detail_page.dart';
+import 'package:flutter_pokemon_riverpod/features/pokemon/presentation/pages/pokemon_detail_page.dart';
 
 class PokemonListPage extends StatelessWidget {
   const PokemonListPage({super.key});
