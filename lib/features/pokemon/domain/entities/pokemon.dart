@@ -1,3 +1,5 @@
+import 'package:flutter_pokemon_riverpod/features/pokemon/domain/entities/stat.dart';
+
 class Pokemon {
   final int id;
   final String name;
@@ -6,7 +8,7 @@ class Pokemon {
   final String height;
   final String weight;
   final List<String> habilities;
-  final List<String> initialStats;
+  final List<Stat> initialStats;
 
   Pokemon({
     required this.id,

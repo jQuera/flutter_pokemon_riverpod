@@ -11,7 +11,7 @@ class RemoteDatasource {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final List<dynamic> results = data['results'];
-      return results.map((pokemon) => PokemonModel.fromJson(pokemon)).toList();
+      return results.map((pokemon) => PokemonModel.fromExternalApi(pokemon)).toList();
     } else {
       throw Exception('Failed to load Pokemon list');
     }
@@ -22,7 +22,7 @@ class RemoteDatasource {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return PokemonModel.fromJson(data);
+      return PokemonModel.fromExternalApi(data);
     } else {
       throw Exception('Failed to load Pokemon details');
     }
