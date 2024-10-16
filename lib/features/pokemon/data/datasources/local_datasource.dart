@@ -32,15 +32,82 @@ class LocalDatasource {
             initialStats TEXT
           )
           ''');
+
+        await db.execute('''
+          CREATE TABLE pokemon_count (
+          id INTEGER PRIMARY KEY,
+          count INTEGER
+          );
+      ''');
       },
     );
   }
 
-  Future<List<PokemonModel>> getLocalPokemonList() async {
+  Future<void> insertPokemonCount(int count) async {
+    final db = await database;
+    await db.insert(
+      'pokemon_count',
+      {'id': 1, 'count': count},
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<int?> getPokemonMaxCount() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('pokemon_count');
+    if (maps.isEmpty) return null;
+    return maps.first['count'] as int;
+  }
+
+  Future<int> getPokemonLocalCount() async {
+    final db = await database;
+    final count = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM pokemons'));
+    return count ?? 0;
+  }
+
+  Future<List<PokemonModel>> getAllPokemonList() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('pokemons');
     return List.generate(maps.length, (i) {
-      return PokemonModel.fromExternalApi(json)
+      return PokemonModel.fromSQLite(maps[i]);
     });
+  }
+
+  Future<List<PokemonModel>> getPokemonList(int limit, int offset) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'pokemons',
+      limit: limit,
+      offset: offset,
+    );
+    return List.generate(maps.length, (i) {
+      return PokemonModel.fromSQLite(maps[i]);
+    });
+  }
+
+  Future<PokemonModel?> getPokemonByName(String name) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'pokemons',
+      where: 'name = ?',
+      whereArgs: [name],
+    );
+    if (maps.isEmpty) return null;
+    return PokemonModel.fromSQLite(maps.first);
+  }
+
+  Future<void> insertPokemon(PokemonModel pokemon) async {
+    final db = await database;
+    await db.insert('pokemons', pokemon.toJson());
+  }
+
+  Future<void> updatePokemon(PokemonModel pokemon) async {
+    final db = await database;
+    await db.update(
+      'pokemons',
+      pokemon.toJson(),
+      where: 'id = ?',
+      whereArgs: [pokemon.id],
+    );
   }
 }

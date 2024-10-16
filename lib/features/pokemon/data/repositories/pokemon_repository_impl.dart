@@ -1,17 +1,45 @@
+import 'package:flutter_pokemon_riverpod/features/pokemon/data/datasources/local_datasource.dart';
 import 'package:flutter_pokemon_riverpod/features/pokemon/data/datasources/remote_datasource.dart';
+import 'package:flutter_pokemon_riverpod/features/pokemon/data/models/pokemon_model.dart';
 import 'package:flutter_pokemon_riverpod/features/pokemon/domain/entities/pokemon.dart';
 import 'package:flutter_pokemon_riverpod/features/pokemon/domain/repositories/pokemon_repository.dart';
+import 'package:http/http.dart';
 
 class PokemonRepositoryImpl implements PokemonRepository {
-  //TODO implementar local datasource si quiero almacenar en local la data
   final RemoteDatasource remoteDatasource;
+  final LocalDatasource localDatasource;
 
-  PokemonRepositoryImpl(this.remoteDatasource);
+  PokemonRepositoryImpl(this.remoteDatasource, this.localDatasource);
 
   @override
   Future<List<Pokemon>> getList(int limit, int offset) async {
-    final response = await remoteDatasource.fetchPokemonList(limit, offset);
+    if (offset < 0) {
+      throw Exception("El Offset no puede ser inferior a 0");
+    }
+
+    final localCount = await localDatasource.getPokemonLocalCount();
+    final maxCount = await localDatasource.getPokemonMaxCount();
+    // el 0 es por si no hay cantidad maxima descargada desde la api
+    if (localCount >= (maxCount ?? 0)) {
+      return await localDatasource.getPokemonList(limit, offset).then(
+            (localPokemons) => localPokemons.map((pokemon) => pokemon.toEntity()).toList(),
+          );
+    }
+
+    final localPokemons = await localDatasource.getPokemonList(limit, offset);
+
+    if (localPokemons.length == limit) {
+      return localPokemons.map((PokemonModel model) => model.toEntity()).toList();
+    }
+
+    final response = await remoteDatasource.fetchPokemonList(limit, offset + localPokemons.length);
     List<Pokemon> modelToEntityList = response.map((pokemon) => pokemon.toEntity()).toList();
+    for (PokemonModel pokemon in response) {
+      final existingPokemon = await localDatasource.getPokemonByName(pokemon.name);
+      if (existingPokemon == null) {
+        await localDatasource.insertPokemon(pokemon);
+      }
+    }
     return modelToEntityList;
   }
 

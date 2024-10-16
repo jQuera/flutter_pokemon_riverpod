@@ -1,6 +1,5 @@
 import 'package:flutter_pokemon_riverpod/features/pokemon/data/models/stat_model.dart';
 import 'package:flutter_pokemon_riverpod/features/pokemon/domain/entities/pokemon.dart';
-import 'package:flutter_pokemon_riverpod/features/pokemon/domain/entities/stat.dart';
 
 class PokemonModel {
   final int id;
@@ -90,6 +89,6 @@ class PokemonModel {
         height: height,
         weight: weight,
         habilities: habilities,
-        initialStats: initialStats.map((stat) => Stat(name: stat.name, baseValue: stat.baseValue)).toList(),
+        initialStats: initialStats.map((stat) => stat.toEntity()).toList(),
       );
 }
