@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon_riverpod/features/pokemon/presentation/pages/pokemon_detail_page.dart';
+import 'package:flutter_pokemon_riverpod/features/pokemon/presentation/providers/pokemon_list_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PokemonListPage extends StatelessWidget {
+class PokemonListPage extends ConsumerWidget {
   const PokemonListPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pokemonListProvider = ref.watch(pokemonListProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Mi PokeApp"),

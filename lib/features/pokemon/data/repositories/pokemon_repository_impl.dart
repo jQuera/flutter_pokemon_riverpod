@@ -3,7 +3,6 @@ import 'package:flutter_pokemon_riverpod/features/pokemon/data/datasources/remot
 import 'package:flutter_pokemon_riverpod/features/pokemon/data/models/pokemon_model.dart';
 import 'package:flutter_pokemon_riverpod/features/pokemon/domain/entities/pokemon.dart';
 import 'package:flutter_pokemon_riverpod/features/pokemon/domain/repositories/pokemon_repository.dart';
-import 'package:http/http.dart';
 
 class PokemonRepositoryImpl implements PokemonRepository {
   final RemoteDatasource remoteDatasource;
