@@ -2,36 +2,39 @@ import 'package:flutter_pokemon_riverpod/features/pokemon/data/models/stat_model
 import 'package:flutter_pokemon_riverpod/features/pokemon/domain/entities/pokemon.dart';
 
 class PokemonModel {
-  final int id;
-  final String name;
-  final String imageUrl;
-  final List<String> type;
-  final String height;
-  final String weight;
-  final List<String> habilities;
-  final List<StatModel> initialStats;
+  int? id;
+  String name;
+  String? imageUrl;
+  List<String>? type;
+  String? height;
+  String? weight;
+  List<String>? habilities;
+  List<StatModel>? initialStats;
 
   PokemonModel({
-    required this.id,
+    this.id,
     required this.name,
-    required this.imageUrl,
-    required this.type,
-    required this.height,
-    required this.weight,
-    required this.habilities,
-    required this.initialStats,
+    this.imageUrl,
+    this.type,
+    this.height,
+    this.weight,
+    this.habilities,
+    this.initialStats,
   });
 
   // Convertir desde api externa
   factory PokemonModel.fromExternalApi(Map<String, dynamic> json) => PokemonModel(
         id: json['id'],
         name: json['name'],
-        imageUrl: json['sprites']['front_default'],
-        type: List<String>.from(json['types'].map((type) => type['type']['name'])),
-        height: json['height'].toString(),
-        weight: json['weight'].toString(),
-        habilities: List<String>.from(json['abilities'].map((ability) => ability['ability']['name'])),
-        initialStats: List<StatModel>.from(json['stats'].map((stat) => StatModel.fromJson(stat))),
+        imageUrl: json['sprites'] != null ? json['sprites']['front_default'] : null,
+        type: json['types'] != null ? List<String>.from(json['types'].map((type) => type['type']['name'])) : [],
+        height: json['height']?.toString(),
+        weight: json['weight']?.toString(),
+        habilities: json['abilities'] != null
+            ? List<String>.from(json['abilities'].map((ability) => ability['ability']['name']))
+            : [],
+        initialStats:
+            json['stats'] != null ? List<StatModel>.from(json['stats'].map((stat) => StatModel.fromJson(stat))) : [],
       );
 
   // Convertir desde SQLite a PokemonModel
@@ -59,11 +62,11 @@ class PokemonModel {
       'id': id,
       'name': name,
       'imageUrl': imageUrl,
-      'type': type.join(','),
+      'type': type?.join(',') ?? '',
       'height': height,
       'weight': weight,
-      'habilities': habilities.join(','),
-      'initialStats': initialStats.map((stat) => '${stat.name}:${stat.baseValue}').join(','),
+      'habilities': habilities?.join(',') ?? '',
+      'initialStats': initialStats?.map((stat) => '${stat.name}:${stat.baseValue}').join(',') ?? '',
     };
   }
 
@@ -82,13 +85,13 @@ class PokemonModel {
 
   // Convertir al entity
   Pokemon toEntity() => Pokemon(
-        id: id,
+        id: id ?? 0,
         name: name,
-        imageUrl: imageUrl,
-        type: type,
-        height: height,
-        weight: weight,
-        habilities: habilities,
-        initialStats: initialStats.map((stat) => stat.toEntity()).toList(),
+        imageUrl: imageUrl ?? '',
+        type: type ?? [],
+        height: height ?? '',
+        weight: weight ?? '',
+        habilities: habilities ?? [],
+        initialStats: initialStats?.map((stat) => stat.toEntity()).toList() ?? [],
       );
 }

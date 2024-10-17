@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pokemon_riverpod/features/pokemon/domain/entities/pokemon.dart';
 
 class PokemonDetailPage extends StatelessWidget {
-  const PokemonDetailPage({super.key});
+  const PokemonDetailPage({super.key, required this.pokemon});
+
+  final Pokemon pokemon;
 
   @override
   Widget build(BuildContext context) {

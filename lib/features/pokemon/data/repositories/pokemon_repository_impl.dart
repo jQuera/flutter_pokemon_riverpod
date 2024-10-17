@@ -18,8 +18,7 @@ class PokemonRepositoryImpl implements PokemonRepository {
 
     final localCount = await localDatasource.getPokemonLocalCount();
     final maxCount = await localDatasource.getPokemonMaxCount();
-    // el 0 es por si no hay cantidad maxima descargada desde la api
-    if (localCount >= (maxCount ?? 0)) {
+    if (maxCount != null && localCount >= maxCount) {
       return await localDatasource.getPokemonList(limit, offset).then(
             (localPokemons) => localPokemons.map((pokemon) => pokemon.toEntity()).toList(),
           );
@@ -32,13 +31,20 @@ class PokemonRepositoryImpl implements PokemonRepository {
     }
 
     final response = await remoteDatasource.fetchPokemonList(limit, offset + localPokemons.length);
-    List<Pokemon> modelToEntityList = response.map((pokemon) => pokemon.toEntity()).toList();
+    List<Pokemon> modelToEntityList = [];
+
     for (PokemonModel pokemon in response) {
       final existingPokemon = await localDatasource.getPokemonByName(pokemon.name);
       if (existingPokemon == null) {
-        await localDatasource.insertPokemon(pokemon);
+        print('buscando el pokemon ${pokemon.name}');
+        final detailedPokemon = await remoteDatasource.fetchPokemonDetail(pokemon.name);
+        await localDatasource.insertPokemon(detailedPokemon);
+        modelToEntityList.add(detailedPokemon.toEntity());
+      } else {
+        modelToEntityList.add(existingPokemon.toEntity());
       }
     }
+
     return modelToEntityList;
   }
 

@@ -6,14 +6,25 @@ part 'pokemon_list_provider.g.dart';
 
 @riverpod
 class PokemonList extends _$PokemonList {
+  bool _isLoading = false;
+  String error = '';
   @override
   List<Pokemon> build() {
+    fetchPokemonList(20, 0);
     return [];
   }
 
   Future<void> fetchPokemonList(int limit, int offset) async {
-    final getList = ref.read(getListProvider);
-    final pokemonList = await getList(limit, offset);
-    state = [...state, ...pokemonList];
+    if (_isLoading) return;
+    _isLoading = true;
+    try {
+      final getList = ref.read(getListProvider);
+      final pokemonList = await getList(limit, offset);
+      state = [...state, ...pokemonList];
+    } catch (e) {
+      error = e.toString();
+    } finally {
+      _isLoading = false;
+    }
   }
 }
