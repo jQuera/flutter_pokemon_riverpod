@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon_riverpod/features/pokemon/domain/entities/pokemon.dart';
+import 'package:flutter_pokemon_riverpod/features/pokemon/presentation/widgets/data_detail_widget.dart';
+import 'package:flutter_pokemon_riverpod/features/pokemon/presentation/widgets/pokemon_presentation_widget.dart';
 
 class PokemonDetailPage extends StatelessWidget {
   const PokemonDetailPage({super.key, required this.pokemon});
@@ -9,44 +11,20 @@ class PokemonDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Colors.lightBlue[50],
+      appBar: AppBar(
+        title: const Text(
+          'INFO.',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
+      ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Nombre de pokemon"),
-            const SizedBox(height: 12),
-            Placeholder(
-              fallbackHeight: MediaQuery.sizeOf(context).width,
-              fallbackWidth: MediaQuery.sizeOf(context).width,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Tipo:"),
-                Text("Tierra/Dragon"),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Altura:"),
-                Text("1.80m"),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Habilidades:"),
-                Text("ataque1, ataque2, ataque3, ataque4"),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Estadisticas base:"),
-                Text("stats"),
-              ],
-            )
+            PokemonPresentationWidget(pokemon: pokemon),
+            DataDetailWidget(pokemon: pokemon),
           ],
         ),
       ),

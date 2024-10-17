@@ -36,7 +36,6 @@ class PokemonRepositoryImpl implements PokemonRepository {
     for (PokemonModel pokemon in response) {
       final existingPokemon = await localDatasource.getPokemonByName(pokemon.name);
       if (existingPokemon == null) {
-        print('buscando el pokemon ${pokemon.name}');
         final detailedPokemon = await remoteDatasource.fetchPokemonDetail(pokemon.name);
         await localDatasource.insertPokemon(detailedPokemon);
         modelToEntityList.add(detailedPokemon.toEntity());
