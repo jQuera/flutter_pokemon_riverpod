@@ -1,16 +1,43 @@
 # flutter_pokemon_riverpod
 
-A new Flutter project.
+ Proyecto de Flutter de aplicación de Pokémon utilizando Riverpod para la gestión del estado y clean architecture para una mejor organización del código.
 
-## Getting Started
+## Instrucciones de Configuración y Ejecución
 
-This project is a starting point for a Flutter application.
+Flutter: 3.22.2
+Dart: 3.4.3
 
-A few resources to get you started if this is your first Flutter project:
+Sigue las instrucciones de [Flutter](https://flutter.dev/) para una correcta instalación.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Instalación
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clona este repositorio en tu maquina local con comando o directamente desde github.
+
+   ```bash
+   git clone https://github.com/tu-usuario/flutter_pokemon_riverpod.git
+   cd flutter_pokemon_riverpod
+   ```
+
+2. Instala las dependencias.
+   
+   ```bash
+   flutter pub get
+   ```
+
+### Ejecución
+
+1. Conecta un celular o inicia un emulador con Android Studio.
+
+2. Ejecuta la aplicacion
+
+   ```bash
+   flutter run
+   ```
+
+### Estructura del Proyecto
+
+El proyecto sigue clean architecture, dividiendo el código en capas bien definidas:
+
+- **Presentación**: Contiene widgets de Flutter y lógica de UI.
+- **Dominio**: Define las entidades y casos de uso.
+- **Datos**: Implementa repositorios y fuentes de datos (locales y remotas).
