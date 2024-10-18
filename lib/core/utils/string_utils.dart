@@ -1,4 +1,6 @@
 extension StringUtils on String {
+  /// Convierte un String para el TitleCase
+  /// Ejemplo: "rafael" -> "Rafael"
   String toTitleCase() {
     if (isEmpty) {
       return this;

@@ -1,3 +1,4 @@
+/// Entity de stats de pokemon
 class Stat {
   final String name;
   final int baseValue;

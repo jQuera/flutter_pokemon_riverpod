@@ -1,5 +1,6 @@
 import 'package:flutter_pokemon_riverpod/features/pokemon/domain/entities/stat.dart';
 
+/// Entity de pokemon
 class Pokemon {
   final int id;
   final String name;

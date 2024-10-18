@@ -1,6 +1,7 @@
 import 'package:flutter_pokemon_riverpod/features/pokemon/data/models/stat_model.dart';
 import 'package:flutter_pokemon_riverpod/features/pokemon/domain/entities/pokemon.dart';
 
+/// Model de pokemon
 class PokemonModel {
   int? id;
   String name;
@@ -22,7 +23,7 @@ class PokemonModel {
     this.initialStats,
   });
 
-  // Convertir desde api externa
+  /// Convertir desde pokeapi, permite que falten datos
   factory PokemonModel.fromExternalApi(Map<String, dynamic> json) => PokemonModel(
         id: json['id'],
         name: json['name'],
@@ -37,7 +38,7 @@ class PokemonModel {
             json['stats'] != null ? List<StatModel>.from(json['stats'].map((stat) => StatModel.fromJson(stat))) : [],
       );
 
-  // Convertir desde SQLite a PokemonModel
+  /// Convertir desde SQLite a PokemonModel
   factory PokemonModel.fromSQLite(Map<String, dynamic> map) {
     return PokemonModel(
       id: map['id'],
@@ -56,7 +57,7 @@ class PokemonModel {
     );
   }
 
-  // Convertir a Map para guardar en SQLite
+  /// Convertir a Map para guardar en SQLite
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -70,7 +71,7 @@ class PokemonModel {
     };
   }
 
-  // Convertir desde el entity
+  ///  Convertir desde el entity a PokemonModel
   factory PokemonModel.fromEntity(Pokemon pokemon) => PokemonModel(
         id: pokemon.id,
         name: pokemon.name,
@@ -83,7 +84,7 @@ class PokemonModel {
             pokemon.initialStats.map((stat) => StatModel(name: stat.name, baseValue: stat.baseValue)).toList(),
       );
 
-  // Convertir al entity
+  /// Convertir al entity
   Pokemon toEntity() => Pokemon(
         id: id ?? 0,
         name: name,

@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'pokemon_repository_provider.g.dart';
 
+/// Provider de PokemonRepository
 @riverpod
 PokemonRepository pokemonRepository(PokemonRepositoryRef ref) {
   final remoteDatasource = ref.watch(remoteDatasourceProvider);

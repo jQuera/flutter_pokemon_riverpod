@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'get_pokemon_list_provider.g.dart';
 
+/// Provider del usecase GetList
 @riverpod
 GetList getList(GetListRef ref) {
   final repository = ref.watch(pokemonRepositoryProvider);

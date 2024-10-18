@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'pokemon_list_provider.g.dart';
 
+/// Provider de Lista Pokemon
 @riverpod
 class PokemonList extends _$PokemonList {
   bool _isLoading = false;

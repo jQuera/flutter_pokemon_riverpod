@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'remote_datasource_provider.g.dart';
 
+/// Provider de remoteDataSource
 @riverpod
 RemoteDatasource remoteDatasource(RemoteDatasourceRef ref) {
   return RemoteDatasource();
