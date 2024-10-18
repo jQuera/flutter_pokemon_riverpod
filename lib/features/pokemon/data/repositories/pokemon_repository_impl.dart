@@ -46,11 +46,4 @@ class PokemonRepositoryImpl implements PokemonRepository {
 
     return modelToEntityList;
   }
-
-  @override
-  Future<Pokemon> getPokemon(String name) async {
-    final response = await remoteDatasource.fetchPokemonDetail(name);
-    Pokemon modelToEntity = response.toEntity();
-    return modelToEntity;
-  }
 }
