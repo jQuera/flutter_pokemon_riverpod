@@ -24,7 +24,6 @@ void main() {
       MaterialApp(home: Scaffold(body: DataDetailWidget(pokemon: pokemon))),
     );
 
-    // Verifica que el DataDetailWidget muestre las estadísticas iniciales del Pokémon
     expect(find.text('HP: 45'), findsOneWidget);
     expect(find.text('Attack: 49'), findsOneWidget);
   });
